@@ -74,37 +74,37 @@ const ProjectBoardPage = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-8">
         <div className="flex items-center space-x-4">
           <Link
             to="/"
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-3 hover:bg-gray-100 rounded-xl transition-all duration-200 hover:scale-110 hover:shadow-soft"
           >
-            <ArrowLeftIcon className="w-5 h-5 text-gray-600" />
+            <ArrowLeftIcon className="w-5 h-5 text-gray-600 hover:text-gray-900" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{project.name}</h1>
-            <p className="text-gray-600 mt-1">{project.description}</p>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-2">{project.name}</h1>
+            <p className="text-gray-600 text-lg">{project.description}</p>
           </div>
         </div>
-        <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+        <button className="group inline-flex items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl shadow-soft text-white bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 hover:shadow-soft-lg hover:-translate-y-0.5">
           <PlusIcon className="w-4 h-4 mr-2" />
           Add Task
         </button>
       </div>
 
       {/* Project Info */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200/60 p-6 shadow-soft mb-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6">
             {/* Members */}
             <div className="flex items-center">
-              <span className="text-sm font-medium text-gray-700 mr-3">Team:</span>
-              <div className="flex -space-x-2">
+              <span className="text-sm font-semibold text-gray-700 mr-4">Team:</span>
+              <div className="flex -space-x-2 hover:space-x-1 transition-all duration-300">
                 {project.members.map((member) => (
                   <div
                     key={member.id}
-                    className="w-8 h-8 bg-primary-100 border-2 border-white rounded-full flex items-center justify-center text-xs font-medium text-primary-700"
+                    className="w-10 h-10 bg-gradient-to-br from-primary-100 to-primary-200 border-2 border-white rounded-full flex items-center justify-center text-xs font-semibold text-primary-700 shadow-soft hover:scale-110 transition-transform duration-200 cursor-pointer"
                     title={member.name}
                   >
                     {member.avatar}
@@ -115,15 +115,17 @@ const ProjectBoardPage = () => {
 
             {/* Progress */}
             <div className="flex items-center space-x-3">
-              <span className="text-sm font-medium text-gray-700">Progress:</span>
+              <span className="text-sm font-semibold text-gray-700">Progress:</span>
               <div className="flex items-center space-x-2">
-                <div className="w-24 bg-gray-200 rounded-full h-2">
+                <div className="w-32 bg-gray-200 rounded-full h-3 overflow-hidden">
                   <div
-                    className="bg-primary-600 h-2 rounded-full transition-all duration-300"
+                    className="bg-gradient-to-r from-primary-500 to-primary-600 h-3 rounded-full transition-all duration-500 shadow-sm relative overflow-hidden"
                     style={{ width: `${project.progress}%` }}
-                  />
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse"></div>
+                  </div>
                 </div>
-                <span className="text-sm font-medium text-gray-900">{project.progress}%</span>
+                <span className="text-sm font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded-full">{project.progress}%</span>
               </div>
             </div>
           </div>
@@ -131,35 +133,38 @@ const ProjectBoardPage = () => {
       </div>
 
       {/* Kanban Board */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {columns.map((column) => (
-          <div key={column.id} className="bg-gray-50 rounded-lg p-4">
+          <div key={column.id} className="bg-gradient-to-b from-gray-50/80 to-gray-100/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/40 shadow-soft">
             {/* Column Header */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-2">
                 <div className={`w-3 h-3 rounded-full ${
                   column.id === 'To Do' ? 'bg-gray-400' :
                   column.id === 'In Progress' ? 'bg-blue-500' : 'bg-green-500'
                 }`} />
-                <h3 className="font-semibold text-gray-900">{column.title}</h3>
-                <span className="bg-gray-200 text-gray-700 text-xs font-medium px-2 py-1 rounded-full">
+                <h3 className="font-bold text-gray-900">{column.title}</h3>
+                <span className="bg-white/80 text-gray-700 text-xs font-semibold px-3 py-1 rounded-full shadow-soft">
                   {tasksByStatus[column.id].length}
                 </span>
               </div>
-              <button className="p-1 hover:bg-gray-200 rounded">
-                <PlusIcon className="w-4 h-4 text-gray-500" />
+              <button className="p-2 hover:bg-white/60 rounded-lg transition-all duration-200 hover:scale-110 hover:shadow-soft">
+                <PlusIcon className="w-4 h-4 text-gray-500 hover:text-gray-700" />
               </button>
             </div>
 
             {/* Tasks */}
-            <div className="space-y-3">
+            <div className="space-y-4">
               {tasksByStatus[column.id].map((task) => (
                 <TaskCard key={task.id} task={task} />
               ))}
               
               {tasksByStatus[column.id].length === 0 && (
-                <div className="text-center py-8 text-gray-500">
-                  <p className="text-sm">No tasks in {column.title.toLowerCase()}</p>
+                <div className="text-center py-12 text-gray-500">
+                  <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-gray-400 text-sm">∅</span>
+                  </div>
+                  <p className="text-sm font-medium">No tasks in {column.title.toLowerCase()}</p>
                 </div>
               )}
             </div>
